@@ -29,8 +29,7 @@
   (defn start!
     [records]
     (print-records! records)
-    (print-choices! records)
-    )
+    (print-choices! records))
 
   (defn next-position
     [records]
@@ -39,8 +38,7 @@
 
   (defn add-record
     [text records]
-    (conj records {:position (next-position records) :text text})
-    )
+    (conj records {:position (next-position records) :text text}))
 
   (defn remove-record
     [position records]
@@ -55,13 +53,11 @@
     (cond
      (= input "a") (do
                      (println "Write your text below")
-                     (def records (add-record (read-line) records))
-                     )
+                     (def records (add-record (read-line) records)))
      (and (some? (not-empty records)) (some? (re-matches #"r[1-9][0-9]*" input))) (do
                                                   (def position (last (re-matches #"r([1-9][0-9]*)" input)))
                                                   (def records (remove-record position records))
-                                                  (println "Record was removed.")
-                                                  )
+                                                  (println "Record was removed."))
      :else (println  "Wrong choice!"))
     (start! records)
     (recur (read-line)))
