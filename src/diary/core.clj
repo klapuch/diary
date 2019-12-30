@@ -8,7 +8,7 @@
 
   (defn format-record
     [record]
-    (format "%d. %s" (get record :position) (get record :text)))
+    (format "%d. %s" (:position record) (:text record)))
 
   (defn print-records!
     [records]
@@ -30,7 +30,7 @@
 
   (defn next-position
     [records]
-    (let [positions (map #(get %1 :position) records)]
+    (let [positions (map #(:position %1) records)]
       (inc (apply max (conj positions 0)))))
 
   (defn add-record
@@ -39,7 +39,7 @@
 
   (defn remove-record
     [position records]
-    (let [item-to-remove (first (filter #(= (Integer. position) (Integer. (get %1 :position))) records))]
+    (let [[item-to-remove] (filter #(= (Integer. position) (Integer. (:position %1))) records)]
       (filter #(not= %1 item-to-remove) records)
     ))
 
