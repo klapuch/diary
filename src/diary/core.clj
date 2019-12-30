@@ -20,10 +20,7 @@
       (let [choices {:a "[a]dd" :r "[r]emove (position)"}]
         (if
           (empty? records) (dissoc choices :r)
-          choices
-          )
-        )
-      )
+          choices)))
     (println (format "Your choices: %s" (str/join ", " (vals choices)))))
 
   (defn start!
@@ -56,8 +53,12 @@
                      (def records (add-record (read-line) records)))
      (and (some? (not-empty records)) (some? (re-matches #"r[1-9][0-9]*" input))) (do
                                                   (def position (last (re-matches #"r([1-9][0-9]*)" input)))
-                                                  (def records (remove-record position records))
-                                                  (println "Record was removed."))
+                                                  (def records
+                                                    (let [new-records (remove-record position records)]
+                                                      (if
+                                                        (= new-records records) (println "Record was NOT removed, probably bad position?")
+                                                        (println "Record was removed."))
+                                                      new-records)))
      :else (println  "Wrong choice!"))
     (start! records)
     (recur (read-line)))
